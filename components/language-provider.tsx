@@ -29,7 +29,7 @@ const translations = {
     "contact.description": "Ready to bring your ideas to life",
   },
   pl: {
-    "nav.home": "Strona główna",
+    "nav.home": "Home",
     "nav.about": "O mnie",
     "nav.projects": "Projekty",
     "nav.skills": "Umiejętności",

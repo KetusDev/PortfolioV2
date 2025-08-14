@@ -6,6 +6,7 @@ import GlassmorphismCard from "@/components/glassmorphism-card"
 import { useLanguage } from "@/components/language-provider"
 import { ExternalLink, Github, Code2, Smartphone, Terminal, Layers } from "lucide-react"
 import ProjectModal from "@/components/project-modal"
+import Image from "next/image"
 
 const projectCategories = ["All", "Web", "Mobile", "Scripts", "Other"]
 
@@ -203,19 +204,30 @@ export default function ProjectsBentoGrid() {
                 key={project.title}
                 delay={index * 0.1}
                 className="h-full group cursor-pointer"
-                onClick={() => handleProjectClick(project)}
                 hover={true}
               >
-                <div className="h-full flex flex-col">
+                <div
+                  className="h-full flex flex-col"
+                  onClick={() => handleProjectClick(project)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter" || e.key === " ") handleProjectClick(project)
+                  }}
+                >
                   {/* Project Image */}
                   <div
-                    className={`rounded-2xl overflow-hidden bg-black/5 mb-4 ${
+                    className={`rounded-2xl overflow-hidden bg-black/5 mb-4 relative ${
                       project.size === "large" ? "aspect-video" : "aspect-square"
                     }`}
                   >
-                    <img
+                    <Image
                       src={project.image || "/placeholder.svg"}
                       alt={project.title}
+                      width={project.size === "large" ? 600 : 400}
+                      height={project.size === "large" ? 340 : 400}
+                      quality={80}
+                      priority={project.featured}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     {project.featured && (

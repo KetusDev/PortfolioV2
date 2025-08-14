@@ -185,6 +185,8 @@ The project significantly reduced deployment times and eliminated manual errors,
                           className={`w-3 h-3 rounded-full transition-colors ${
                             currentImageIndex === index ? "bg-black/60" : "bg-black/20"
                           }`}
+                          title={`Show image ${index + 1}`}
+                          aria-label={`Show image ${index + 1}`}
                         />
                       ))}
                     </div>

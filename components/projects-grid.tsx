@@ -6,94 +6,40 @@ import GlassmorphismCard from "@/components/glassmorphism-card"
 import { useLanguage } from "@/components/language-provider"
 import { ExternalLink, Github, Code2, Smartphone, Terminal, Layers } from "lucide-react"
 import ProjectModal from "@/components/project-modal"
+import Image from "next/image"
 
 const projectCategories = ["All", "Web", "Mobile", "Scripts", "Other"]
 
 const allProjects = [
   {
     id: 1,
-    title: "E-Commerce Platform",
-    description: "Full-stack e-commerce solution with React, Node.js, and PostgreSQL",
+    title: "SOON",
+    description: "SOON",
     category: "Web",
-    tech: ["React", "Node.js", "PostgreSQL", "Stripe"],
-    image: "/modern-ecommerce-dashboard.png",
+    tech: ["SOON"],
+    image: "/placeholder.svg",
     link: "#",
     github: "#",
     featured: true,
   },
   {
     id: 2,
-    title: "Mobile Banking App",
-    description: "Secure mobile banking application with biometric authentication",
+    title: "SOON",
+    description: "SOON",
     category: "Mobile",
-    tech: ["React Native", "TypeScript", "Firebase"],
-    image: "/mobile-banking-app.png",
+    tech: ["SOON"],
+    image: "/placeholder.svg",
     link: "#",
     github: "#",
     featured: true,
   },
   {
     id: 3,
-    title: "DevOps Automation Suite",
-    description: "Automated deployment and monitoring scripts for cloud infrastructure",
+    title: "SOON",
+    description: "SOON",
     category: "Scripts",
-    tech: ["Python", "Docker", "AWS", "Terraform"],
-    image: "/devops-dashboard-automation.png",
-    link: "#",
-    github: "#",
-    featured: false,
-  },
-  {
-    id: 4,
-    title: "AI Chat Interface",
-    description: "Modern chat interface with AI integration and real-time responses",
-    category: "Web",
-    tech: ["Next.js", "OpenAI", "Tailwind", "WebSocket"],
-    image: "/ai-chat-interface.png",
-    link: "#",
-    github: "#",
-    featured: false,
-  },
-  {
-    id: 5,
-    title: "Fitness Tracker",
-    description: "Cross-platform fitness tracking mobile app with health monitoring",
-    category: "Mobile",
-    tech: ["Flutter", "Firebase", "HealthKit", "Charts"],
-    image: "/fitness-tracker-app-interface.png",
-    link: "#",
-    github: "#",
-    featured: false,
-  },
-  {
-    id: 6,
-    title: "Data Migration Tool",
-    description: "Automated data migration and transformation scripts for enterprise systems",
-    category: "Scripts",
-    tech: ["Python", "Pandas", "SQL", "Apache Airflow"],
-    image: "/data-migration-dashboard.png",
-    link: "#",
-    github: "#",
-    featured: false,
-  },
-  {
-    id: 7,
-    title: "Design System",
-    description: "Comprehensive design system and component library for modern applications",
-    category: "Other",
-    tech: ["Storybook", "React", "Figma", "TypeScript"],
-    image: "/design-system-components.png",
-    link: "#",
-    github: "#",
-    featured: false,
-  },
-  {
-    id: 8,
-    title: "API Gateway",
-    description: "Microservices API gateway with rate limiting and authentication",
-    category: "Other",
-    tech: ["Node.js", "Redis", "Docker", "JWT"],
-    image: "/api-gateway-architecture.png",
+    tech: ["SOON"],
+    image: "/placeholder.svg",
     link: "#",
     github: "#",
     featured: false,
@@ -179,15 +125,26 @@ export default function ProjectsGrid() {
             >
               <GlassmorphismCard
                 className="h-full group cursor-pointer"
-                onClick={() => handleProjectClick(project)}
                 hover={true}
               >
-                <div className="h-full flex flex-col">
+                <div
+                  className="h-full flex flex-col"
+                  onClick={() => handleProjectClick(project)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter" || e.key === " ") handleProjectClick(project)
+                  }}
+                >
                   {/* Project Image */}
                   <div className="relative rounded-2xl overflow-hidden bg-black/5 mb-6 aspect-video">
-                    <img
+                    <Image
                       src={project.image || "/placeholder.svg"}
                       alt={project.title}
+                      width={600}
+                      height={340}
+                      quality={80}
+                      priority={project.featured}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     {project.featured && (

@@ -6,16 +6,13 @@ import ParticlesBackground from "@/components/kokonutui/particles-background"
 import GlassmorphismNavbar from "@/components/glassmorphism-navbar"
 import GlassmorphismCard from "@/components/glassmorphism-card"
 import { useLanguage } from "@/components/language-provider"
-import { Code2, Smartphone, Cloud, Github, Linkedin, Mail, Download, Database } from "lucide-react"
+import { Code2, Smartphone, Cloud, Github, Linkedin, Mail, Download, Database, MapPin, GraduationCap, Briefcase, Trophy, Gamepad2, Bike, AudioLines, Car, Globe, FileCode } from "lucide-react"
 import ProjectsGrid from "@/components/projects-grid"
 import InteractiveSkillsSection from "@/components/interactive-skills-section"
 
-const skills = {
-  web: ["React", "Next.js", "TypeScript", "Node.js", "Python", "PostgreSQL"],
-  mobile: ["React Native", "Flutter", "Swift", "Kotlin"],
-  scripts: ["Python", "Bash", "PowerShell", "Automation"],
-  cloud: ["AWS", "Docker", "Kubernetes", "CI/CD"],
-}
+const year = { date: new Date().getFullYear() }
+
+
 
 export default function Portfolio() {
   const { t } = useLanguage()
@@ -36,7 +33,7 @@ export default function Portfolio() {
           subtitle=""
           particleCount={1500}
           noiseIntensity={0.002}
-          particleSize={{ min: 0.3, max: 1.5 }}
+          particleSize={{ min: 0.5, max: 2.5 }}
         />
       </div>
 
@@ -110,14 +107,14 @@ export default function Portfolio() {
                 <div className="flex items-center space-x-4">
                   <div className="w-20 h-20 rounded-2xl overflow-hidden bg-gradient-to-br from-black/10 to-black/5">
                     <img
-                      src="/professional-developer-portrait.png"
+                      src="/logo.png"
                       alt="Profile"
                       className="w-full h-full object-cover"
                     />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-semibold text-black/80">Jan Kowalski</h3>
-                    <p className="text-black/60">Senior FullStack Developer</p>
+                    <h3 className="text-2xl font-semibold text-black/80">Szymon "Ketus" Skorupski</h3>
+                    <p className="text-black/60">Junior Fullstack Developer</p>
                     <div className="flex items-center space-x-2 mt-2">
                       <span className="w-2 h-2 bg-black/60 rounded-full animate-pulse"></span>
                       <span className="text-sm text-black/60">Available for projects</span>
@@ -127,29 +124,36 @@ export default function Portfolio() {
 
                 <div className="space-y-4 flex-1">
                   <p className="text-black/70 leading-relaxed">
-                    Passionate FullStack developer with 5+ years of experience building scalable web applications,
+                    {/* Passionate FullStack developer with 5+ years of experience building scalable web applications,
                     mobile apps, and automation solutions. I specialize in modern JavaScript frameworks, cloud
-                    architecture, and creating seamless user experiences.
+                    architecture, and creating seamless user experiences. */}
+                    SOON
                   </p>
 
                   <div className="space-y-3">
                     <div className="flex items-center space-x-3">
                       <div className="w-8 h-8 rounded-full bg-black/10 flex items-center justify-center">
-                        <span className="text-xs">📍</span>
+                        <span className="text-xs">
+                          <MapPin size={16} />
+                        </span>
                       </div>
-                      <span className="text-sm text-black/60">Warsaw, Poland (Remote Worldwide)</span>
+                      <span className="text-sm text-black/60">Poland (Remote Worldwide)</span>
                     </div>
                     <div className="flex items-center space-x-3">
                       <div className="w-8 h-8 rounded-full bg-black/10 flex items-center justify-center">
-                        <span className="text-xs">🎓</span>
+                        <span className="text-xs">
+                          <GraduationCap size={16} />
+                        </span>
                       </div>
-                      <span className="text-sm text-black/60">Computer Science, Warsaw University</span>
+                      <span className="text-sm text-black/60">SOON</span>
                     </div>
                     <div className="flex items-center space-x-3">
                       <div className="w-8 h-8 rounded-full bg-black/10 flex items-center justify-center">
-                        <span className="text-xs">💼</span>
+                        <span className="text-xs">
+                          <Briefcase size={16} />
+                        </span>
                       </div>
-                      <span className="text-sm text-black/60">Senior Developer at TechCorp</span>
+                      <span className="text-sm text-black/60">SOON</span>
                     </div>
                   </div>
 
@@ -167,7 +171,7 @@ export default function Portfolio() {
             {/* Experience Stats */}
             <GlassmorphismCard className="md:col-span-1 lg:col-span-1" delay={0.1}>
               <div className="text-center space-y-2 h-full flex flex-col justify-center">
-                <div className="text-4xl font-bold text-black/80">5+</div>
+                <div className="text-4xl font-bold text-black/80">4+</div>
                 <div className="text-sm text-black/60">Years Experience</div>
               </div>
             </GlassmorphismCard>
@@ -175,7 +179,7 @@ export default function Portfolio() {
             {/* Projects Count */}
             <GlassmorphismCard className="md:col-span-1 lg:col-span-1" delay={0.2}>
               <div className="text-center space-y-2 h-full flex flex-col justify-center">
-                <div className="text-4xl font-bold text-black/80">50+</div>
+                <div className="text-4xl font-bold text-black/80">10+</div>
                 <div className="text-sm text-black/60">Projects</div>
               </div>
             </GlassmorphismCard>
@@ -183,7 +187,7 @@ export default function Portfolio() {
             {/* Clients */}
             <GlassmorphismCard className="md:col-span-1 lg:col-span-1" delay={0.3}>
               <div className="text-center space-y-2 h-full flex flex-col justify-center">
-                <div className="text-4xl font-bold text-black/80">30+</div>
+                <div className="text-4xl font-bold text-black/80">13+</div>
                 <div className="text-sm text-black/60">Happy Clients</div>
               </div>
             </GlassmorphismCard>
@@ -192,21 +196,23 @@ export default function Portfolio() {
             <GlassmorphismCard className="md:col-span-2 lg:col-span-2" delay={0.4}>
               <div className="space-y-3">
                 <h4 className="font-semibold text-black/80 flex items-center space-x-2">
-                  <span>🏆</span>
+                  <span>
+                    <Trophy size={20} />
+                  </span>
                   <span>Recent Achievements</span>
                 </h4>
                 <div className="space-y-2">
                   <div className="flex items-center space-x-2">
                     <div className="w-2 h-2 bg-black/60 rounded-full"></div>
-                    <span className="text-sm text-black/60">Best Developer Award 2024</span>
+                    <span className="text-sm text-black/60">SOON</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <div className="w-2 h-2 bg-black/60 rounded-full"></div>
-                    <span className="text-sm text-black/60">AWS Certified Solutions Architect</span>
+                    <span className="text-sm text-black/60">SOON</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <div className="w-2 h-2 bg-black/60 rounded-full"></div>
-                    <span className="text-sm text-black/60">Google Cloud Professional</span>
+                    <span className="text-sm text-black/60">SOON</span>
                   </div>
                 </div>
               </div>
@@ -219,33 +225,33 @@ export default function Portfolio() {
                 <div className="space-y-3">
                   <div className="flex items-center justify-between p-3 bg-black/5 rounded-xl">
                     <div className="flex items-center space-x-3">
-                      <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
+                      <div className="w-3 h-3 bg-black/50 rounded-full animate-pulse"></div>
                       <div>
-                        <div className="text-sm font-medium text-black/80">AI-Powered SaaS Platform</div>
-                        <div className="text-xs text-black/60">Next.js, OpenAI, PostgreSQL</div>
+                        <div className="text-sm font-medium text-black/80">SOON</div>
+                        <div className="text-xs text-black/60">SOON</div>
                       </div>
                     </div>
-                    <span className="text-xs text-black/60">85%</span>
+                    <span className="text-xs text-black/60">0%</span>
                   </div>
                   <div className="flex items-center justify-between p-3 bg-black/5 rounded-xl">
                     <div className="flex items-center space-x-3">
-                      <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                      <div className="w-3 h-3 bg-slate-700 rounded-full animate-pulse"></div>
                       <div>
-                        <div className="text-sm font-medium text-black/80">Mobile Banking App</div>
-                        <div className="text-xs text-black/60">React Native, TypeScript</div>
+                        <div className="text-sm font-medium text-black/80">SOON</div>
+                        <div className="text-xs text-black/60">SOON</div>
                       </div>
                     </div>
-                    <span className="text-xs text-black/60">60%</span>
+                    <span className="text-xs text-black/60">0%</span>
                   </div>
                   <div className="flex items-center justify-between p-3 bg-black/5 rounded-xl">
                     <div className="flex items-center space-x-3">
-                      <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse"></div>
+                      <div className="w-3 h-3 bg-neutral-700 rounded-full animate-pulse"></div>
                       <div>
-                        <div className="text-sm font-medium text-black/80">DevOps Automation Suite</div>
-                        <div className="text-xs text-black/60">Python, Docker, AWS</div>
+                        <div className="text-sm font-medium text-black/80">SOON</div>
+                        <div className="text-xs text-black/60">SOON</div>
                       </div>
                     </div>
-                    <span className="text-xs text-black/60">40%</span>
+                    <span className="text-xs text-black/60">0%</span>
                   </div>
                 </div>
               </div>
@@ -257,19 +263,27 @@ export default function Portfolio() {
                 <h4 className="font-semibold text-black/80">Interests & Hobbies</h4>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="text-center p-3 bg-black/5 rounded-xl">
-                    <div className="text-2xl mb-1">🎮</div>
+                    <div className="text-2xl mb-1">
+                      <Gamepad2 size={30} className="inline-block" />
+                    </div>
                     <div className="text-xs text-black/60">Gaming</div>
                   </div>
                   <div className="text-center p-3 bg-black/5 rounded-xl">
-                    <div className="text-2xl mb-1">📚</div>
-                    <div className="text-xs text-black/60">Reading</div>
+                    <div className="text-2xl mb-1">
+                      <Bike size={30} className="inline-block" />
+                    </div>
+                    <div className="text-xs text-black/60">Sports</div>
                   </div>
                   <div className="text-center p-3 bg-black/5 rounded-xl">
-                    <div className="text-2xl mb-1">🏃</div>
-                    <div className="text-xs text-black/60">Running</div>
+                    <div className="text-2xl mb-1">
+                      <Car size={30} className="inline-block" />
+                    </div>
+                    <div className="text-xs text-black/60">Motorsport</div>
                   </div>
                   <div className="text-center p-3 bg-black/5 rounded-xl">
-                    <div className="text-2xl mb-1">🎵</div>
+                    <div className="text-2xl mb-1">
+                      <AudioLines size={30} className="inline-block" />
+                    </div>
                     <div className="text-xs text-black/60">Music</div>
                   </div>
                 </div>
@@ -282,7 +296,7 @@ export default function Portfolio() {
                 <h4 className="font-semibold text-black/80">Let's Connect</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <motion.a
-                    href="mailto:jan@example.com"
+                    href="mailto:code.szymon@gmail.com"
                     whileHover={{ scale: 1.02 }}
                     className="flex items-center space-x-3 p-3 bg-black/5 rounded-xl hover:bg-black/10 transition-colors"
                   >
@@ -291,11 +305,11 @@ export default function Portfolio() {
                     </div>
                     <div>
                       <div className="text-sm font-medium text-black/80">Email</div>
-                      <div className="text-xs text-black/60">jan@example.com</div>
+                      <div className="text-[0.7rem] text-black/60">code.szymon@gmail.com</div>
                     </div>
                   </motion.a>
                   <motion.a
-                    href="https://linkedin.com"
+                    href="https://linkedin.com/ketusdev"
                     whileHover={{ scale: 1.02 }}
                     className="flex items-center space-x-3 p-3 bg-black/5 rounded-xl hover:bg-black/10 transition-colors"
                   >
@@ -308,7 +322,7 @@ export default function Portfolio() {
                     </div>
                   </motion.a>
                   <motion.a
-                    href="https://github.com"
+                    href="https://github.com/ketusdev"
                     whileHover={{ scale: 1.02 }}
                     className="flex items-center space-x-3 p-3 bg-black/5 rounded-xl hover:bg-black/10 transition-colors"
                   >
@@ -317,16 +331,18 @@ export default function Portfolio() {
                     </div>
                     <div>
                       <div className="text-sm font-medium text-black/80">GitHub</div>
-                      <div className="text-xs text-black/60">@jankowalski</div>
+                      <div className="text-xs text-black/60">@ketusdev</div>
                     </div>
                   </motion.a>
                   <div className="flex items-center space-x-3 p-3 bg-black/5 rounded-xl">
                     <div className="w-8 h-8 rounded-full bg-black/10 flex items-center justify-center">
-                      <span className="text-xs">🌍</span>
+                      <span className="text-xs">
+                        <Globe size={14} />
+                      </span>
                     </div>
                     <div>
                       <div className="text-sm font-medium text-black/80">Timezone</div>
-                      <div className="text-xs text-black/60">UTC+1 (CET)</div>
+                      <div className="text-xs text-black/60">UTC+2 (CET)</div>
                     </div>
                   </div>
                 </div>
@@ -335,18 +351,18 @@ export default function Portfolio() {
           </div>
 
           {/* Skills Overview */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {[
               {
                 icon: Code2,
                 title: "Frontend",
-                skills: ["React", "Next.js", "TypeScript", "Tailwind"],
+                skills: ["React", "Next.js", "TypeScript", "Tailwind", "Vue.js"],
                 color: "from-black/10 to-black/20",
               },
               {
                 icon: Database,
                 title: "Backend",
-                skills: ["Node.js", "Python", "PostgreSQL", "GraphQL"],
+                skills: ["Node.js", "Python", "PHP", "PostgreSQL", "GraphQL"],
                 color: "from-black/15 to-black/25",
               },
               {
@@ -361,8 +377,18 @@ export default function Portfolio() {
                 skills: ["AWS", "Docker", "Kubernetes", "CI/CD"],
                 color: "from-black/25 to-black/35",
               },
+              {
+                icon: FileCode,
+                title: "Other",
+                skills: ["Git", "Lua", "C++"],
+                color: "from-black/30 to-black/40",
+              },
             ].map((category, index) => (
-              <GlassmorphismCard key={category.title} delay={index * 0.1}>
+              <GlassmorphismCard 
+                key={category.title} 
+                delay={index * 0.1}
+                className={`${index === 3 ? 'lg:col-start-1' : ''}`}
+              >
                 <div className="text-center space-y-4">
                   <motion.div
                     whileHover={{ rotate: 360, scale: 1.1 }}
@@ -416,9 +442,9 @@ export default function Portfolio() {
             <div className="space-y-8">
               <div className="flex justify-center space-x-6">
                 {[
-                  { icon: Github, href: "#", label: "GitHub" },
-                  { icon: Linkedin, href: "#", label: "LinkedIn" },
-                  { icon: Mail, href: "mailto:contact@example.com", label: "Email" },
+                  { icon: Github, href: "https://github.com/ketusdev", label: "GitHub" },
+                  { icon: Linkedin, href: "https://www.linkedin.com/in/ketusdev/", label: "LinkedIn" },
+                  { icon: Mail, href: "mailto:code.szymon@gmail.com", label: "Email" },
                 ].map((social) => (
                   <motion.a
                     key={social.label}
@@ -438,7 +464,7 @@ export default function Portfolio() {
                 className="backdrop-blur-xl bg-black/10 hover:bg-black/20 border border-black/20 hover:border-black/30 rounded-full px-12 py-4 text-black font-medium transition-all duration-300 inline-flex items-center space-x-2"
               >
                 <Mail size={18} />
-                <span>contact@example.com</span>
+                <span>code.szymon@gmail.com</span>
               </motion.button>
             </div>
           </GlassmorphismCard>
@@ -449,7 +475,7 @@ export default function Portfolio() {
       <footer className="relative z-10 py-8 px-4">
         <div className="max-w-6xl mx-auto">
           <GlassmorphismCard className="text-center">
-            <p className="text-black/60">© 2024 FullStack Developer Portfolio. Built with Next.js & Framer Motion.</p>
+            <p className="text-black/60">© {year.date} KetusDev - FullStack Developer.</p>
           </GlassmorphismCard>
         </div>
       </footer>

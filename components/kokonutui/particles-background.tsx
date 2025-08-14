@@ -147,41 +147,68 @@ export default function ParticlesBackground({
       maxLife: 100 + Math.random() * 50,
     }))
 
-    const animate = () => {
+    // Zoptymalizowana funkcja animacji z throttlingiem i batch processingiem
+    let lastTime = 0;
+    const fpsLimit = 30; // Limit FPS dla mniejszego obciążenia CPU
+    const batchSize = 500; // Liczba cząsteczek przetwarzanych w jednej iteracji
+    
+    const animate = (timestamp = 0) => {
+      // Limit FPS
+      const elapsed = timestamp - lastTime;
+      if (elapsed < 1000 / fpsLimit) {
+        requestAnimationFrame(animate);
+        return;
+      }
+      lastTime = timestamp;
+      
       const isDark = document.documentElement.classList.contains("dark")
       const scheme = isDark ? COLOR_SCHEME.dark : COLOR_SCHEME.light
 
       ctx.fillStyle = isDark ? "rgba(0, 0, 0, 0.1)" : "rgba(255, 255, 255, 0.1)"
       ctx.fillRect(0, 0, canvas.width, canvas.height)
+      
+      // Shared calculations
+      const now = Date.now() * 0.0001;
+      
+      // Przetwarzaj cząsteczki w grupach
+      for (let i = 0; i < particles.length; i += batchSize) {
+        const batchEnd = Math.min(i + batchSize, particles.length);
+        
+        for (let j = i; j < batchEnd; j++) {
+          const particle = particles[j];
+          
+          particle.life += 1
+          if (particle.life > particle.maxLife) {
+            particle.life = 0
+            particle.x = Math.random() * canvas.width
+            particle.y = Math.random() * canvas.height
+            continue; // Przeskocz do następnej cząsteczki bez rysowania
+          }
 
-      for (const particle of particles) {
-        particle.life += 1
-        if (particle.life > particle.maxLife) {
-          particle.life = 0
-          particle.x = Math.random() * canvas.width
-          particle.y = Math.random() * canvas.height
+          const opacity = Math.sin((particle.life / particle.maxLife) * Math.PI) * 0.15
+
+          // Mniej intensywne obliczenia szumu
+          if (particle.life % 2 === 0) { // Obliczaj co drugą klatkę
+            const n = noise.simplex3(particle.x * noiseIntensity, particle.y * noiseIntensity, now)
+            const angle = n * Math.PI * 4
+            particle.velocity.x = Math.cos(angle) * 2
+            particle.velocity.y = Math.sin(angle) * 2
+          }
+
+          particle.x += particle.velocity.x
+          particle.y += particle.velocity.y
+
+          // Uproszczone sprawdzanie granic
+          if (particle.x < 0) particle.x = canvas.width
+          else if (particle.x > canvas.width) particle.x = 0
+          if (particle.y < 0) particle.y = canvas.height
+          else if (particle.y > canvas.height) particle.y = 0
+
+          ctx.fillStyle = isDark ? `rgba(255, 255, 255, ${opacity})` : `rgba(0, 0, 0, ${opacity})`
+          ctx.beginPath()
+          ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2)
+          ctx.fill()
         }
-
-        const opacity = Math.sin((particle.life / particle.maxLife) * Math.PI) * 0.15
-
-        const n = noise.simplex3(particle.x * noiseIntensity, particle.y * noiseIntensity, Date.now() * 0.0001)
-
-        const angle = n * Math.PI * 4
-        particle.velocity.x = Math.cos(angle) * 2
-        particle.velocity.y = Math.sin(angle) * 2
-
-        particle.x += particle.velocity.x
-        particle.y += particle.velocity.y
-
-        if (particle.x < 0) particle.x = canvas.width
-        if (particle.x > canvas.width) particle.x = 0
-        if (particle.y < 0) particle.y = canvas.height
-        if (particle.y > canvas.height) particle.y = 0
-
-        ctx.fillStyle = isDark ? `rgba(255, 255, 255, ${opacity})` : `rgba(0, 0, 0, ${opacity})`
-        ctx.beginPath()
-        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2)
-        ctx.fill()
       }
 
       requestAnimationFrame(animate)
