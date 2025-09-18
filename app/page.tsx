@@ -221,29 +221,29 @@ export default function Portfolio() {
             {/* Current Projects */}
             <GlassmorphismCard className="md:col-span-3 lg:col-span-3" delay={0.5}>
               <div className="space-y-4">
-                <h4 className="font-semibold text-black/80">Currently Working On</h4>
+                <h4 className="font-semibold text-black/80">{t("current.title")}</h4>
                 <div className="space-y-3">
                   <div className="flex items-center justify-between p-3 bg-black/5 rounded-xl">
                     <div className="flex items-center space-x-3">
                       <div className="w-3 h-3 bg-black/50 rounded-full animate-pulse"></div>
                       <div>
-                        <div className="text-sm font-medium text-black/80">SOON</div>
+                        <div className="text-sm font-medium text-black/80">AleSushi Mobile App</div>
                         <div className="text-xs text-black/60">SOON</div>
                       </div>
                     </div>
-                    <span className="text-xs text-black/60">0%</span>
+                    <span className="text-xs text-black/60">85%</span>
                   </div>
                   <div className="flex items-center justify-between p-3 bg-black/5 rounded-xl">
                     <div className="flex items-center space-x-3">
                       <div className="w-3 h-3 bg-slate-700 rounded-full animate-pulse"></div>
                       <div>
-                        <div className="text-sm font-medium text-black/80">SOON</div>
+                        <div className="text-sm font-medium text-black/80">Discord Bot Money Exchanger</div>
                         <div className="text-xs text-black/60">SOON</div>
                       </div>
                     </div>
-                    <span className="text-xs text-black/60">0%</span>
+                    <span className="text-xs text-black/60">30%</span>
                   </div>
-                  <div className="flex items-center justify-between p-3 bg-black/5 rounded-xl">
+                  {/* <div className="flex items-center justify-between p-3 bg-black/5 rounded-xl">
                     <div className="flex items-center space-x-3">
                       <div className="w-3 h-3 bg-neutral-700 rounded-full animate-pulse"></div>
                       <div>
@@ -252,7 +252,7 @@ export default function Portfolio() {
                       </div>
                     </div>
                     <span className="text-xs text-black/60">0%</span>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </GlassmorphismCard>
@@ -260,7 +260,7 @@ export default function Portfolio() {
             {/* Interests & Hobbies */}
             <GlassmorphismCard className="md:col-span-2 lg:col-span-2" delay={0.6}>
               <div className="space-y-4">
-                <h4 className="font-semibold text-black/80">Interests & Hobbies</h4>
+                <h4 className="font-semibold text-black/80">{t("interests.title")}</h4>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="text-center p-3 bg-black/5 rounded-xl">
                     <div className="text-2xl mb-1">
@@ -293,7 +293,7 @@ export default function Portfolio() {
             {/* Contact Info */}
             <GlassmorphismCard className="md:col-span-3 lg:col-span-3" delay={0.7}>
               <div className="space-y-4">
-                <h4 className="font-semibold text-black/80">Let's Connect</h4>
+                <h4 className="font-semibold text-black/80">{t("contact.title")}</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <motion.a
                     href="mailto:code.szymon@gmail.com"
@@ -464,7 +464,7 @@ export default function Portfolio() {
                 className="backdrop-blur-xl bg-black/10 hover:bg-black/20 border border-black/20 hover:border-black/30 rounded-full px-12 py-4 text-black font-medium transition-all duration-300 inline-flex items-center space-x-2"
               >
                 <Mail size={18} />
-                <span>code.szymon@gmail.com</span>
+                <span><a href="mailto:code.szymon@gmail.com">code.szymon@gmail.com</a></span>
               </motion.button>
             </div>
           </GlassmorphismCard>

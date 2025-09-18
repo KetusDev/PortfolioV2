@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { X, ExternalLink, Github, Calendar, Users, Code } from "lucide-react"
 import GlassmorphismCard from "@/components/glassmorphism-card"
@@ -13,6 +13,37 @@ interface ProjectModalProps {
 
 export default function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
+
+  // Ukryj/pokaż header podczas wyświetlania modala
+  useEffect(() => {
+    const header = document.querySelector('header, nav, .navbar')
+    if (header) {
+      if (isOpen) {
+        header.style.opacity = '0'
+        header.style.pointerEvents = 'none'
+        header.style.transition = 'opacity 0.3s ease'
+      } else {
+        header.style.opacity = '1'
+        header.style.pointerEvents = 'auto'
+      }
+    }
+
+    // Zapobiegaj przewijaniu tła podczas otwartego modala
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+
+    // Cleanup przy unmount
+    return () => {
+      if (header) {
+        header.style.opacity = '1'
+        header.style.pointerEvents = 'auto'
+      }
+      document.body.style.overflow = 'unset'
+    }
+  }, [isOpen])
 
   if (!project) return null
 
@@ -114,33 +145,50 @@ The project significantly reduced deployment times and eliminated manual errors,
   }
 
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="wait">
       {isOpen && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          transition={{ duration: 0.2, ease: "easeOut" }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 pt-20"
           onClick={onClose}
         >
-          {/* Backdrop */}
-          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+          {/* Optimized Backdrop */}
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+            className="absolute inset-0 bg-black/60"
+            style={{ backdropFilter: 'blur(8px)' }}
+          />
 
           {/* Modal */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            initial={{ opacity: 0, scale: 0.95, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            transition={{ duration: 0.3 }}
-            className="relative w-full max-w-6xl max-h-[90vh] overflow-y-auto"
+            exit={{ opacity: 0, scale: 0.95, y: 30 }}
+            transition={{ 
+              duration: 0.25, 
+              ease: [0.25, 0.46, 0.45, 0.94],
+              opacity: { duration: 0.2 }
+            }}
+            className="relative w-full max-w-6xl max-h-[90vh] sm:max-h-[85vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
+            style={{ 
+              scrollbarWidth: 'thin',
+              scrollbarColor: 'rgba(0,0,0,0.3) transparent'
+            }}
           >
             <GlassmorphismCard className="p-0">
-              {/* Header */}
-              <div className="sticky top-0 z-10 backdrop-blur-xl bg-white/10 border-b border-white/20 p-6 flex items-center justify-between">
+                {/* Header */}
+                <div className="sticky top-0 z-10 bg-white/20 border-b border-white/30 p-4 sm:p-6 flex items-center justify-between"
+                      style={{ backdropFilter: 'blur(12px)' }}>
                 <div>
-                  <h2 className="text-2xl font-bold text-black/80">{project.title}</h2>
-                  <div className="flex items-center space-x-4 mt-2 text-sm text-black/60">
+                   <h2 className="text-xl sm:text-2xl font-bold text-black/80">{project.title}</h2>
+                   <div className="flex flex-wrap items-center gap-2 sm:gap-4 mt-2 text-xs sm:text-sm text-black/60">
                     <div className="flex items-center space-x-1">
                       <Calendar size={14} />
                       <span>{details.duration}</span>
@@ -166,24 +214,36 @@ The project significantly reduced deployment times and eliminated manual errors,
               </div>
 
               {/* Content */}
-              <div className="p-6 space-y-8">
+              <div className="p-4 sm:p-6 space-y-6 sm:space-y-8">
                 {/* Image Gallery */}
                 <div className="space-y-4">
-                  <div className="aspect-video rounded-2xl overflow-hidden bg-black/5">
-                    <img
+                  <div className="aspect-video rounded-2xl overflow-hidden bg-white/10 shadow-lg">
+                    <motion.img
+                      key={currentImageIndex}
+                      initial={{ opacity: 0, scale: 1.05 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.3, ease: "easeOut" }}
                       src={details.additionalImages[currentImageIndex] || project.image}
                       alt={`${project.title} - Image ${currentImageIndex + 1}`}
                       className="w-full h-full object-cover"
+                      style={{ 
+                        filter: 'none',
+                        imageRendering: 'crisp-edges'
+                      }}
                     />
                   </div>
                   {details.additionalImages.length > 1 && (
                     <div className="flex space-x-2 justify-center">
                       {details.additionalImages.map((_, index) => (
-                        <button
+                        <motion.button
                           key={index}
                           onClick={() => setCurrentImageIndex(index)}
-                          className={`w-3 h-3 rounded-full transition-colors ${
-                            currentImageIndex === index ? "bg-black/60" : "bg-black/20"
+                          whileHover={{ scale: 1.2 }}
+                          whileTap={{ scale: 0.9 }}
+                          className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                            currentImageIndex === index 
+                              ? "bg-black/70 shadow-md" 
+                              : "bg-black/30 hover:bg-black/50"
                           }`}
                           title={`Show image ${index + 1}`}
                           aria-label={`Show image ${index + 1}`}
@@ -194,7 +254,7 @@ The project significantly reduced deployment times and eliminated manual errors,
                 </div>
 
                 {/* Project Info Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
                   {/* Main Description */}
                   <div className="lg:col-span-2 space-y-6">
                     <div>
@@ -274,18 +334,20 @@ The project significantly reduced deployment times and eliminated manual errors,
                     <div className="space-y-3">
                       <motion.a
                         href={project.link}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        className="w-full flex items-center justify-center space-x-2 py-3 px-4 bg-black/10 hover:bg-black/20 rounded-xl transition-colors"
+                        whileHover={{ scale: 1.03, y: -2 }}
+                        whileTap={{ scale: 0.97 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                        className="w-full flex items-center justify-center space-x-2 py-3 px-4 bg-black/10 hover:bg-black/20 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md"
                       >
                         <ExternalLink size={16} />
                         <span>View Live Project</span>
                       </motion.a>
                       <motion.a
                         href={project.github}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        className="w-full flex items-center justify-center space-x-2 py-3 px-4 bg-black/10 hover:bg-black/20 rounded-xl transition-colors"
+                        whileHover={{ scale: 1.03, y: -2 }}
+                        whileTap={{ scale: 0.97 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                        className="w-full flex items-center justify-center space-x-2 py-3 px-4 bg-black/10 hover:bg-black/20 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md"
                       >
                         <Github size={16} />
                         <span>View Source Code</span>

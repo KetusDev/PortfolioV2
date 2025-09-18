@@ -218,7 +218,7 @@ export default function InteractiveSkillsSection() {
           {t("skills.title")}
         </h2>
         <p className="text-xl text-black/70 max-w-3xl mx-auto">
-          Comprehensive technical expertise across the full development stack
+          {t("skills.second-title")}
         </p>
       </motion.div>
 
@@ -227,7 +227,7 @@ export default function InteractiveSkillsSection() {
         <div className="lg:col-span-1">
           <GlassmorphismCard>
             <div className="space-y-3">
-              <h3 className="font-semibold text-black/80 mb-4">Skill Categories</h3>
+              <h3 className="font-semibold text-black/80 mb-4">{t("skills.categories-title")}</h3>
               {Object.entries(skillCategories).map(([key, category]) => {
                 const Icon = category.icon
                 return (

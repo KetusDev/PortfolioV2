@@ -1,12 +1,12 @@
 "use client"
 
-import { useState } from "react"
-import { motion, AnimatePresence } from "motion/react"
-import GlassmorphismCard from "@/components/glassmorphism-card"
-import { useLanguage } from "@/components/language-provider"
-import { ExternalLink, Github, Code2, Smartphone, Terminal, Layers } from "lucide-react"
-import ProjectModal from "@/components/project-modal"
+import { useState, useCallback, useMemo, memo } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { ExternalLink, Github, Smartphone, Globe, Database, Palette, Code, Code2, Zap } from "lucide-react"
 import Image from "next/image"
+import { useLanguage } from "@/contexts/language-provider"
+import { GlassmorphismCard } from "@/components/ui/glassmorphism-card"
+import { ProjectModal } from "@/components/project-modal"
 
 const projectCategories = ["All", "Web", "Mobile", "Scripts", "Other"]
 
@@ -110,23 +110,38 @@ const allProjects = [
 ]
 
 const categoryIcons = {
-  All: Layers,
+  All: Globe,
   Web: Code2,
   Mobile: Smartphone,
-  Scripts: Terminal,
-  Other: Layers,
+  Scripts: Code,
+  Other: Database,
 }
 
-export default function ProjectsBentoGrid() {
+interface ProjectsBentoGridProps {
+  hideHeader?: boolean
+  showDescription?: boolean
+  maxProjects?: number
+}
+
+function ProjectsBentoGrid({ 
+  hideHeader = false, 
+  showDescription = true, 
+  maxProjects 
+}: ProjectsBentoGridProps = {}) {
   const [activeCategory, setActiveCategory] = useState("All")
   const [selectedProject, setSelectedProject] = useState<any>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { t } = useLanguage()
 
-  const filteredProjects =
-    activeCategory === "All" ? allProjects : allProjects.filter((project) => project.category === activeCategory)
+  const filteredProjects = useMemo(() => {
+    const filtered = activeCategory === "All" 
+      ? allProjects 
+      : allProjects.filter((project) => project.category === activeCategory)
+    
+    return maxProjects ? filtered.slice(0, maxProjects) : filtered
+  }, [activeCategory, maxProjects])
 
-  const getGridClass = (size: string, index: number) => {
+  const getGridClass = useCallback((size: string, index: number) => {
     switch (size) {
       case "large":
         return "md:col-span-2 md:row-span-2"
@@ -137,55 +152,67 @@ export default function ProjectsBentoGrid() {
       default:
         return "md:col-span-1 md:row-span-1"
     }
-  }
+  }, [])
 
-  const handleProjectClick = (project: any) => {
+  const handleProjectClick = useCallback((project: any) => {
     setSelectedProject(project)
     setIsModalOpen(true)
-  }
+  }, [])
+
+  const handleCategoryChange = useCallback((category: string) => {
+    setActiveCategory(category)
+  }, [])
 
   return (
     <div className="max-w-7xl mx-auto">
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-        className="text-center mb-16"
-      >
-        <h2 className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-black to-black/70 mb-6">
-          {t("projects.title")}
-        </h2>
-        <p className="text-xl text-black/70 max-w-3xl mx-auto mb-12">
-          A collection of projects showcasing my expertise across different technologies and platforms
-        </p>
+      {!hideHeader && (
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+            {t("projects.title")}
+          </h2>
+          {showDescription && (
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-12">
+              {t("projects.second-title")}
+            </p>
+          )}
 
-        {/* Category Filter */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-          {projectCategories.map((category) => {
-            const Icon = categoryIcons[category as keyof typeof categoryIcons]
-            return (
-              <motion.button
-                key={category}
-                onClick={() => setActiveCategory(category)}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-full transition-all duration-300 ${
-                  activeCategory === category
-                    ? "backdrop-blur-xl bg-black/20 border border-black/30 text-black"
-                    : "backdrop-blur-xl bg-white/10 border border-white/20 text-black/70 hover:bg-white/20"
-                }`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Icon size={16} />
-                <span>{category}</span>
-                <span className="text-xs bg-black/10 px-2 py-1 rounded-full">
-                  {category === "All" ? allProjects.length : allProjects.filter((p) => p.category === category).length}
-                </span>
-              </motion.button>
-            )
-          })}
-        </div>
-      </motion.div>
+          {/* Category Filter */}
+          <div className="flex flex-wrap justify-center gap-3 mb-12">
+            {projectCategories.map((category) => {
+              const Icon = categoryIcons[category as keyof typeof categoryIcons]
+              return (
+                <motion.button
+                  key={category}
+                  onClick={() => handleCategoryChange(category)}
+                  className={`flex items-center space-x-2 px-6 py-3 rounded-full transition-all duration-300 ${
+                    activeCategory === category
+                      ? "bg-blue-600 text-white shadow-lg"
+                      : "bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 hover:border-gray-300"
+                  }`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Icon size={16} />
+                  <span className="font-medium">{category}</span>
+                  <span className={`text-xs px-2 py-1 rounded-full ${
+                    activeCategory === category 
+                      ? "bg-blue-500 text-white" 
+                      : "bg-gray-100 text-gray-600"
+                  }`}>
+                    {category === "All" ? allProjects.length : allProjects.filter((p) => p.category === category).length}
+                  </span>
+                </motion.button>
+              )
+            })}
+          </div>
+        </motion.div>
+      )}
 
       {/* Projects Grid */}
       <motion.div layout className="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-fr">
@@ -197,98 +224,64 @@ export default function ProjectsBentoGrid() {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={getGridClass(project.size, index)}
+              transition={{ duration: 0.5 }}
+              className={`group relative overflow-hidden rounded-2xl cursor-pointer bg-white border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 ${getGridClass(
+                project.size,
+                index
+              )}`}
+              onClick={() => handleProjectClick(project)}
+              whileHover={{ scale: 1.02, y: -4 }}
+              whileTap={{ scale: 0.98 }}
             >
-              <GlassmorphismCard
-                key={project.title}
-                delay={index * 0.1}
-                className="h-full group cursor-pointer"
-                hover={true}
-              >
-                <div
-                  className="h-full flex flex-col"
-                  onClick={() => handleProjectClick(project)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyPress={(e) => {
-                    if (e.key === "Enter" || e.key === " ") handleProjectClick(project)
-                  }}
-                >
-                  {/* Project Image */}
-                  <div
-                    className={`rounded-2xl overflow-hidden bg-black/5 mb-4 relative ${
-                      project.size === "large" ? "aspect-video" : "aspect-square"
-                    }`}
-                  >
-                    <Image
-                      src={project.image || "/placeholder.svg"}
-                      alt={project.title}
-                      width={project.size === "large" ? 600 : 400}
-                      height={project.size === "large" ? 340 : 400}
-                      quality={80}
-                      priority={project.featured}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    {project.featured && (
-                      <div className="absolute top-3 left-3">
-                        <span className="px-2 py-1 text-xs bg-black/20 text-black/80 rounded-full backdrop-blur-sm">
-                          Featured
-                        </span>
-                      </div>
+              <div className="relative h-full p-6 flex flex-col">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
+                      <Code2 className="w-5 h-5 text-blue-600" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900">{project.title}</h3>
+                      <p className="text-sm text-gray-500">{project.category}</p>
+                    </div>
+                  </div>
+                  <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-blue-600 transition-colors" />
+                </div>
+
+                <p className="text-gray-600 mb-4 flex-grow text-sm leading-relaxed">{project.description}</p>
+
+                <div className="space-y-4">
+                  <div className="flex flex-wrap gap-2">
+                    {project.tech.slice(0, 3).map((tech, techIndex) => (
+                      <span
+                        key={techIndex}
+                        className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded-md"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                    {project.tech.length > 3 && (
+                      <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-700 rounded-md">
+                        +{project.tech.length - 3} more
+                      </span>
                     )}
                   </div>
 
-                  {/* Project Info */}
-                  <div className="flex-1 space-y-3">
-                    <div className="flex items-start justify-between">
-                      <h3 className="text-lg font-semibold text-black/80 group-hover:text-black transition-colors">
-                        {project.title}
-                      </h3>
-                      <span className="px-2 py-1 text-xs bg-black/10 text-black/60 rounded-full">
-                        {project.category}
-                      </span>
+                  {project.image && (
+                    <div className="relative h-28 rounded-xl overflow-hidden bg-gray-50">
+                      <Image
+                        src={project.image || "/placeholder.svg"}
+                        alt={project.title}
+                        width={project.size === "large" ? 600 : 400}
+                        height={project.size === "large" ? 340 : 400}
+                        quality={80}
+                        priority={project.featured}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </div>
-
-                    <p className="text-black/60 text-sm leading-relaxed">{project.description}</p>
-
-                    <div className="flex flex-wrap gap-2">
-                      {project.tech.slice(0, 3).map((tech) => (
-                        <span key={tech} className="px-2 py-1 text-xs bg-black/10 text-black/70 rounded-full">
-                          {tech}
-                        </span>
-                      ))}
-                      {project.tech.length > 3 && (
-                        <span className="px-2 py-1 text-xs bg-black/10 text-black/70 rounded-full">
-                          +{project.tech.length - 3}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Action Buttons */}
-                    <div className="flex items-center space-x-3 pt-2">
-                      <motion.a
-                        href={project.link}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="flex items-center space-x-1 text-black/70 hover:text-black transition-colors duration-300"
-                      >
-                        <ExternalLink size={14} />
-                        <span className="text-sm">Live</span>
-                      </motion.a>
-                      <motion.a
-                        href={project.github}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="flex items-center space-x-1 text-black/70 hover:text-black transition-colors duration-300"
-                      >
-                        <Github size={14} />
-                        <span className="text-sm">Code</span>
-                      </motion.a>
-                    </div>
-                  </div>
+                  )}
                 </div>
-              </GlassmorphismCard>
+              </div>
             </motion.div>
           ))}
         </AnimatePresence>
@@ -298,3 +291,5 @@ export default function ProjectsBentoGrid() {
     </div>
   )
 }
+
+export default memo(ProjectsBentoGrid)

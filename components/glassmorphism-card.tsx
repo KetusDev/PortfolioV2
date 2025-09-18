@@ -21,7 +21,7 @@ export default function GlassmorphismCard({ children, className, hover = true, d
       whileHover={
         hover
           ? {
-              scale: 1.02,
+              // scale: 1.02,
               y: -5,
               transition: { duration: 0.3 },
             }
