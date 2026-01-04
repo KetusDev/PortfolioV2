@@ -456,7 +456,7 @@ export default function Portfolio() {
       <footer className="relative z-10 py-8 px-4">
         <div className="max-w-6xl mx-auto">
           <GlassmorphismCard className="text-center">
-            <a href="https://ketus.dev/" target="_blank" rel="noopener noreferrer" className="text-black/60">© {year.date} KetusDev - FullStack Developer.</a>
+            <p className="text-black/60">© {year.date} KetusDev - FullStack Developer.</p>
           </GlassmorphismCard>
         </div>
       </footer>
