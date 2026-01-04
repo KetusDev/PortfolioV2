@@ -147,13 +147,11 @@ export default function ParticlesBackground({
       maxLife: 100 + Math.random() * 50,
     }))
 
-    // Zoptymalizowana funkcja animacji z throttlingiem i batch processingiem
     let lastTime = 0;
-    const fpsLimit = 30; // Limit FPS dla mniejszego obciążenia CPU
-    const batchSize = 500; // Liczba cząsteczek przetwarzanych w jednej iteracji
+    const fpsLimit = 30; 
+    const batchSize = 500;
     
     const animate = (timestamp = 0) => {
-      // Limit FPS
       const elapsed = timestamp - lastTime;
       if (elapsed < 1000 / fpsLimit) {
         requestAnimationFrame(animate);
@@ -166,11 +164,9 @@ export default function ParticlesBackground({
 
       ctx.fillStyle = isDark ? "rgba(0, 0, 0, 0.1)" : "rgba(255, 255, 255, 0.1)"
       ctx.fillRect(0, 0, canvas.width, canvas.height)
-      
-      // Shared calculations
+  
       const now = Date.now() * 0.0001;
-      
-      // Przetwarzaj cząsteczki w grupach
+
       for (let i = 0; i < particles.length; i += batchSize) {
         const batchEnd = Math.min(i + batchSize, particles.length);
         
@@ -182,13 +178,12 @@ export default function ParticlesBackground({
             particle.life = 0
             particle.x = Math.random() * canvas.width
             particle.y = Math.random() * canvas.height
-            continue; // Przeskocz do następnej cząsteczki bez rysowania
+            continue;
           }
 
           const opacity = Math.sin((particle.life / particle.maxLife) * Math.PI) * 0.15
 
-          // Mniej intensywne obliczenia szumu
-          if (particle.life % 2 === 0) { // Obliczaj co drugą klatkę
+          if (particle.life % 2 === 0) { 
             const n = noise.simplex3(particle.x * noiseIntensity, particle.y * noiseIntensity, now)
             const angle = n * Math.PI * 4
             particle.velocity.x = Math.cos(angle) * 2
@@ -198,7 +193,6 @@ export default function ParticlesBackground({
           particle.x += particle.velocity.x
           particle.y += particle.velocity.y
 
-          // Uproszczone sprawdzanie granic
           if (particle.x < 0) particle.x = canvas.width
           else if (particle.x > canvas.width) particle.x = 0
           if (particle.y < 0) particle.y = canvas.height
@@ -237,9 +231,6 @@ export default function ParticlesBackground({
           <h1 className="text-6xl md:text-8xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-black to-black/70 dark:from-white dark:to-white/70 drop-shadow-sm">
             {title}
           </h1>
-          <Link target="_blank" rel="noopener noreferrer"  href="https://kokonutui.com/" className="text-xl md:text-2xl font-medium bg-clip-text text-transparent bg-gradient-to-b from-black/90 to-black/50 dark:from-white/90 dark:to-white/50 flex items-center justify-center">
-            {subtitle}
-          </Link>
         </motion.div>
       </div>
     </div>

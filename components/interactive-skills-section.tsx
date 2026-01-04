@@ -82,13 +82,6 @@ const skillCategories = {
         projects: 1,
         description: "NoSQL database for flexible, document-based data storage",
       },
-      // {
-      //   name: "GraphQL",
-      //   level: 70,
-      //   experience: "1 year",
-      //   projects: 6,
-      //   description: "Query language for APIs with efficient data fetching",
-      // },
     ],
   },
   mobile: {
@@ -152,13 +145,7 @@ const skillCategories = {
         projects: 1,
         description: "Container orchestration for automated deployment and scaling",
       },
-      // {
-      //   name: "CI/CD",
-      //   level: 82,
-      //   experience: "3 years",
-      //   projects: 25,
-      //   description: "Continuous integration and deployment pipelines",
-      // },
+
     ],
   },
   tools: {

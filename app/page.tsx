@@ -26,7 +26,6 @@ export default function Portfolio() {
 
   return (
     <div ref={containerRef} className="relative">
-      {/* Fixed Particles Background */}
       <div className="fixed inset-0 z-0">
         <ParticlesBackground
           title=""
@@ -99,7 +98,6 @@ export default function Portfolio() {
             </p>
           </motion.div>
 
-          {/* Enhanced Bento Grid Layout */}
           <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-8 gap-6 mb-16">
             {/* Main Profile Card */}
             <GlassmorphismCard className="md:col-span-3 lg:col-span-3 md:row-span-2" delay={0}>
@@ -124,9 +122,6 @@ export default function Portfolio() {
 
                 <div className="space-y-4 flex-1">
                   <p className="text-black/70 leading-relaxed">
-                    {/* Passionate FullStack developer with 5+ years of experience building scalable web applications,
-                    mobile apps, and automation solutions. I specialize in modern JavaScript frameworks, cloud
-                    architecture, and creating seamless user experiences. */}
                     SOON
                   </p>
 
@@ -168,7 +163,6 @@ export default function Portfolio() {
               </div>
             </GlassmorphismCard>
 
-            {/* Experience Stats */}
             <GlassmorphismCard className="md:col-span-1 lg:col-span-1" delay={0.1}>
               <div className="text-center space-y-2 h-full flex flex-col justify-center">
                 <div className="text-4xl font-bold text-black/80">4+</div>
@@ -176,7 +170,6 @@ export default function Portfolio() {
               </div>
             </GlassmorphismCard>
 
-            {/* Projects Count */}
             <GlassmorphismCard className="md:col-span-1 lg:col-span-1" delay={0.2}>
               <div className="text-center space-y-2 h-full flex flex-col justify-center">
                 <div className="text-4xl font-bold text-black/80">10+</div>
@@ -184,7 +177,6 @@ export default function Portfolio() {
               </div>
             </GlassmorphismCard>
 
-            {/* Clients */}
             <GlassmorphismCard className="md:col-span-1 lg:col-span-1" delay={0.3}>
               <div className="text-center space-y-2 h-full flex flex-col justify-center">
                 <div className="text-4xl font-bold text-black/80">13+</div>
@@ -192,7 +184,6 @@ export default function Portfolio() {
               </div>
             </GlassmorphismCard>
 
-            {/* Awards */}
             <GlassmorphismCard className="md:col-span-2 lg:col-span-2" delay={0.4}>
               <div className="space-y-3">
                 <h4 className="font-semibold text-black/80 flex items-center space-x-2">
@@ -218,7 +209,6 @@ export default function Portfolio() {
               </div>
             </GlassmorphismCard>
 
-            {/* Current Projects */}
             <GlassmorphismCard className="md:col-span-3 lg:col-span-3" delay={0.5}>
               <div className="space-y-4">
                 <h4 className="font-semibold text-black/80">{t("current.title")}</h4>
@@ -243,21 +233,12 @@ export default function Portfolio() {
                     </div>
                     <span className="text-xs text-black/60">30%</span>
                   </div>
-                  {/* <div className="flex items-center justify-between p-3 bg-black/5 rounded-xl">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-3 h-3 bg-neutral-700 rounded-full animate-pulse"></div>
-                      <div>
-                        <div className="text-sm font-medium text-black/80">SOON</div>
-                        <div className="text-xs text-black/60">SOON</div>
-                      </div>
-                    </div>
-                    <span className="text-xs text-black/60">0%</span>
-                  </div> */}
+
                 </div>
               </div>
             </GlassmorphismCard>
 
-            {/* Interests & Hobbies */}
+
             <GlassmorphismCard className="md:col-span-2 lg:col-span-2" delay={0.6}>
               <div className="space-y-4">
                 <h4 className="font-semibold text-black/80">{t("interests.title")}</h4>
@@ -350,7 +331,7 @@ export default function Portfolio() {
             </GlassmorphismCard>
           </div>
 
-          {/* Skills Overview */}
+          {/* Skills*/}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {[
               {
@@ -475,7 +456,7 @@ export default function Portfolio() {
       <footer className="relative z-10 py-8 px-4">
         <div className="max-w-6xl mx-auto">
           <GlassmorphismCard className="text-center">
-            <p className="text-black/60">© {year.date} KetusDev - FullStack Developer.</p>
+            <a href="https://ketus.dev/" target="_blank" rel="noopener noreferrer" className="text-black/60">© {year.date} KetusDev - FullStack Developer.</a>
           </GlassmorphismCard>
         </div>
       </footer>

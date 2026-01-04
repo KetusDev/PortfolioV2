@@ -14,7 +14,6 @@ interface ProjectModalProps {
 export default function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
-  // Ukryj/pokaż header podczas wyświetlania modala
   useEffect(() => {
     const header = document.querySelector('header, nav, .navbar')
     if (header) {
@@ -28,14 +27,12 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
       }
     }
 
-    // Zapobiegaj przewijaniu tła podczas otwartego modala
     if (isOpen) {
       document.body.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = 'unset'
     }
 
-    // Cleanup przy unmount
     return () => {
       if (header) {
         header.style.opacity = '1'
